@@ -5,8 +5,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.widget.EditText
+import com.theapache64.inlineautocompleteedittextexample.utils.HtmlCompat
 import com.theapache64.inlineautocompleteedittextexample.utils.SuggestionManager
-import com.theapache64.twinkill.logger.info
 
 
 class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
@@ -20,8 +20,8 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
-                suggestionMan.getSuggestionFor(s.toString())?.let { s ->
-                    info("Suggestion is :$s")
+                suggestionMan.getSuggestionFor(s.toString())?.let { remSug ->
+                    setHintTextSilently(this, s.toString(), remSug)
                 }
             }
 
@@ -34,7 +34,23 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
             }
 
         })
+
+        setOnClickListener {
+            setText(HtmlCompat.fromHtml("<font color=#000000>$text</font>"))
+            setSelection(text.toString().length)
+        }
     }
 
+    private fun setHintTextSilently(
+        textWatcher: TextWatcher,
+        text: CharSequence,
+        suggestion: String
+    ) {
+        removeTextChangedListener(textWatcher)
+        val fullText = "<font color=#000000>$text</font><font color=#c2c2c2>$suggestion</font>"
+        setText(HtmlCompat.fromHtml(fullText))
+        setSelection(text.length)
+        addTextChangedListener(textWatcher)
+    }
 
 }
