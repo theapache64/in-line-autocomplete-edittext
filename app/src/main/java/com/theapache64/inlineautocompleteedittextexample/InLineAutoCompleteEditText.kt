@@ -21,6 +21,7 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
     init {
         addTextChangedListener(object : TextWatcher {
+
             override fun afterTextChanged(s: Editable?) {
                 val suggestion = suggestionMan.getSuggestionFor(s.toString())
                 if (suggestion != null) {

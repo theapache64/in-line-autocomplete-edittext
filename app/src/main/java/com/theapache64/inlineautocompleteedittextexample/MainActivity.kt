@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
             "How old are you?",
             "How do you do?",
             "What is your name?",
-            "How old are you?",
             "Android development is cool",
             "GitHub is amazing",
             "StackOverflow is awesome",

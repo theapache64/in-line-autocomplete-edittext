@@ -13,9 +13,9 @@ class SuggestionManagerTest {
     @Before
     fun setUp() {
         val suggestions = arrayOf(
-            "Hi, How are you?",
-            "Hi, How old are you?",
-            "Hi, How do you do?",
+            "How are you?",
+            "How old are you?",
+            "How do you do?",
             "What is your name?",
             "How old are you?",
             "Android development is cool",
@@ -33,48 +33,15 @@ class SuggestionManagerTest {
         assertNull(suggestionManager.getSuggestionFor(""))
 
         assertEquals(
-            "It's been a pleasure working with you",
-            suggestionManager.getSuggestionFor("It's been a pl")
-        )
-
-
-        assertNull(
-            suggestionManager.getSuggestionFor("It's be")
+            " pleasure working with you",
+            suggestionManager.getSuggestionFor("It's been a")
         )
 
         assertEquals(
-            "StackOverflow is awesome",
-            suggestionManager.getSuggestionFor("Stackoverflow is ")
-        )
-
-        assertNull(
-            suggestionManager.getSuggestionFor("Stac")
+            "re you?",
+            suggestionManager.getSuggestionFor("Hey how a")
         )
 
 
-        assertEquals(
-            "Hi, How are you?",
-            suggestionManager.getSuggestionFor("Hi, How ar")
-        )
-
-        assertEquals(
-            "Hi, How old are you?",
-            suggestionManager.getSuggestionFor("Hi, How old")
-        )
-
-        assertEquals(
-            "How old are you?",
-            suggestionManager.getSuggestionFor("How old")
-        )
-
-        assertEquals(
-            "GitHub is amazing",
-            suggestionManager.getSuggestionFor("GitHub is")
-        )
-
-        assertEquals(
-            "GitHub is amazing",
-            suggestionManager.getSuggestionFor("Oodfgdsfg djsfghksdfg dsfg,s dgsdjfgkjhdsfg, GitHub is")
-        )
     }
 }
