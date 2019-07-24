@@ -20,7 +20,9 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
-                info("Suggestion is ${suggestionMan.getSuggestionFor(s.toString())}")
+                suggestionMan.getSuggestionFor(s.toString())?.let { s ->
+                    info("Suggestion is :$s")
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

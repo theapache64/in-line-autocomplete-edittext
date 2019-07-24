@@ -33,6 +33,13 @@ class SuggestionManagerTest {
         assertNull(suggestionManager.getSuggestionFor(""))
 
         assertEquals(
+            "elopment is cool",
+            suggestionManager.getSuggestionFor("android dev")
+        )
+
+        assertNull(suggestionManager.getSuggestionFor("and"))
+
+        assertEquals(
             "ure working with you",
             suggestionManager.getSuggestionFor("It's been a pleas")
         )
