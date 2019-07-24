@@ -15,6 +15,7 @@
         android:layout_margin="18dp"
         android:gravity="start"
         android:hint="@string/hint_enter_message"
+        android:inputType="textNoSuggestions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
