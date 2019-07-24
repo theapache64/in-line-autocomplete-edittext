@@ -13,9 +13,9 @@ class MainActivity : AppCompatActivity() {
 
         val etMessage = findViewById<InLineAutoCompleteEditText>(R.id.et_message)
         etMessage.dictionary = arrayOf(
-            "Hi, How are you?",
-            "Hi, How old are you?",
-            "Hi, How do you do?",
+            "How are you?",
+            "How old are you?",
+            "How do you do?",
             "What is your name?",
             "How old are you?",
             "Android development is cool",

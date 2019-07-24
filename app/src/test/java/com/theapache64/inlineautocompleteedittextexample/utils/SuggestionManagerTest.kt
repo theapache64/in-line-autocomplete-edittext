@@ -27,9 +27,10 @@ class SuggestionManagerTest {
         suggestionManager = SuggestionManager(suggestions)
     }
 
+
     @Test
     fun getSuggestionFor() {
-       /* assertNull(suggestionManager.getSuggestionFor(""))
+        assertNull(suggestionManager.getSuggestionFor(""))
 
         assertEquals(
             "It's been a pleasure working with you",
@@ -40,6 +41,16 @@ class SuggestionManagerTest {
         assertNull(
             suggestionManager.getSuggestionFor("It's be")
         )
+
+        assertEquals(
+            "StackOverflow is awesome",
+            suggestionManager.getSuggestionFor("Stackoverflow is ")
+        )
+
+        assertNull(
+            suggestionManager.getSuggestionFor("Stac")
+        )
+
 
         assertEquals(
             "Hi, How are you?",
@@ -58,8 +69,8 @@ class SuggestionManagerTest {
 
         assertEquals(
             "GitHub is amazing",
-            suggestionManager.getSuggestionFor("GitHub is ")
-        )*/
+            suggestionManager.getSuggestionFor("GitHub is")
+        )
 
         assertEquals(
             "GitHub is amazing",
