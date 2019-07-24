@@ -5,59 +5,76 @@ class SuggestionManager(private val dictionary: Array<String>) {
 
     fun getSuggestionFor(text: String?): String? {
 
+        // empty text
         if (text.isNullOrBlank()) {
             return null
         }
 
+        // Splitting words by space
         val words = text.split(" ").filter { it.isNotBlank() }
+
+        // Getting last word
         val lastWord = words.last()
 
+        // Matching if last word exist in any dictionary
         val suggestions = mutableSetOf<String>()
         for (dicItem in dictionary) {
             if (dicItem.contains(lastWord, true)) {
+                // Storing founded matches
                 suggestions.add(dicItem)
             }
         }
 
+        // Reverse ordering split-ed words
         val pyramidWords = getReversedList(words)
-        var selSug: String? = null
-        var selPw: String? = null
+        val matchList = mutableListOf<String>()
         for (pw in pyramidWords) {
-            if (pw.trim().length <= 1) {
-                continue
-            }
-
             for (sug in suggestions) {
+                // Storing suggestions starts with reversed word
                 if (sug.startsWith(pw, true)) {
-                    selSug = sug
-                    selPw = pw
-                    break
+                    matchList.add("$pw:$sug")
                 }
             }
-
-            if (selSug != null) {
-                break
-            }
-        }
-
-        if (selSug != null) {
-            // trimming to
-            selSug = selSug.replace(selPw!!, "", true)
-
-            // Checking length
-            val selSugLength = selSug.length
-            val selSugQuarter = selSugLength * 0.25
-            val selPwLength = selPw.length
-
-            if (selPwLength < selSugQuarter) {
-                selSug = null
-            }
-
         }
 
 
+        // Checking if second level match is not empty
+        if (matchList.isNotEmpty()) {
 
-        return selSug
+            // Ordering by matched reversed word - (largest key first)
+            matchList.sortBy { -it.split(":")[0].length }
+
+            // Looping through in ascending order
+            for (m in matchList) {
+
+                val match = m.split(":")
+                val selPw: String = match[0]
+                var selSug: String = match[1]
+
+                // trimming to
+                selSug = selSug.replace(selPw, "", true)
+
+                // Checking length
+                val selSugLength = selSug.length
+                val selSugQuarter = selSugLength * 0.25
+                val selPwLength = selPw.length
+
+                // Checking if typed word length is more than 25% of the suggestion
+                if (selPwLength < selSugQuarter) {
+                    return null
+                }
+
+                if (text.endsWith(" ")) {
+                    selSug = selSug.trim()
+                }
+
+                return selSug
+            }
+        }
+
+
+
+        return null
     }
 
 
