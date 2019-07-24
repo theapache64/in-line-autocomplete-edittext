@@ -20,10 +20,44 @@ class SuggestionManager(private val dictionary: Array<String>) {
         }
 
         val pyramidWords = getReversedList(words)
+        var selSug: String? = null
+        var selPw: String? = null
         for (pw in pyramidWords) {
-            if(pw)
+            if (pw.trim().length <= 1) {
+                continue
+            }
+
+            for (sug in suggestions) {
+                if (sug.startsWith(pw, true)) {
+                    selSug = sug
+                    selPw = pw
+                    break
+                }
+            }
+
+            if (selSug != null) {
+                break
+            }
         }
-        return null
+
+        if (selSug != null) {
+            // trimming to
+            selSug = selSug.replace(selPw!!, "", true)
+
+            // Checking length
+            val selSugLength = selSug.length
+            val selSugQuarter = selSugLength * 0.25
+            val selPwLength = selPw.length
+
+            if (selPwLength < selSugQuarter) {
+                selSug = null
+            }
+
+        }
+
+
+
+        return selSug
     }
 
 
