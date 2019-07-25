@@ -4,6 +4,7 @@ package com.theapache64.inlineautocompleteedittextexample.utils
 class SuggestionManager(private val dictionary: Array<String>) {
 
     companion object {
+        private val WORD_SPLIT_REGEX = Regex("[^A-Za-z'-]")
         /**
          * To get reversed list
          */
@@ -32,7 +33,7 @@ class SuggestionManager(private val dictionary: Array<String>) {
         }
 
         // Splitting words by space
-        val words = text.split(" ").filter { it.isNotBlank() }
+        val words = text.split(WORD_SPLIT_REGEX).filter { it.isNotBlank() }
 
         // Getting last word
         val lastWord = if (text.endsWith(" ")) "${words.last()} " else words.last()
@@ -70,7 +71,7 @@ class SuggestionManager(private val dictionary: Array<String>) {
 
                 val match = m.split(":")
                 val selPw: String = match[0]
-                var selSug: String = match[1]
+                var selSug: String = match.subList(1, match.size).joinToString(":")
 
                 // trimming to
                 selSug = selSug.replace(selPw, "", true)
