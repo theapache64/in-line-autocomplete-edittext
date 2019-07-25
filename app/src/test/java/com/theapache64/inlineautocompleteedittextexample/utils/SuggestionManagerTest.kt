@@ -67,6 +67,8 @@ class SuggestionManagerTest {
 
         assertEquals(" me!!", suggestionManager.getSuggestionFor("please help"))
 
+        assertNull(suggestionManager.getSuggestionFor("Hey mannn gith "))
+        assertEquals("ub is amazing", suggestionManager.getSuggestionFor("Hey mannn gith"))
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.theapache64.inlineautocompleteedittextexample
 
 import android.content.Context
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.widget.EditText
@@ -13,13 +12,11 @@ import com.theapache64.twinkill.logger.info
 
 class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     EditText(context, attrs) {
-    private var activeHint: String? = null
-    private var textWithOutHint: String? = null
+
     lateinit var dictionary: Array<String>
     private val suggestionMan by lazy {
         SuggestionManager(dictionary)
     }
-    private var hasActiveSuggestion = false
 
     companion object {
         private const val TEXT_COLOR = "#000000"
@@ -30,14 +27,8 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
         override fun afterTextChanged(s: Editable?) {
             info("afterTextChanged invoked")
-
-            if (hasActiveSuggestion) {
-                setTextSilently(textWithOutHint!!, null)
-            }
-
             suggestionMan.getSuggestionFor(s.toString()).let { remSug ->
                 info("Suggestion is $remSug")
-                setTextSilently(s.toString(), remSug)
             }
         }
 
@@ -55,10 +46,9 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         addTextChangedListener(textWatcher)
 
         setOnClickListener {
+            // Setting full text - suggestion accepted
             setTextSilently(text, null)
         }
-
-        inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
     }
 
     private fun setTextSilently(
@@ -71,8 +61,6 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
 
         val fullText = if (suggestion != null) {
-            hasActiveSuggestion = true
-            textWithOutHint = currentText
             "<font color=$TEXT_COLOR>$currentText</font><font color=$HINT_COLOR>$suggestion</font>"
         } else {
             "<font color=$TEXT_COLOR>$currentText</font>"

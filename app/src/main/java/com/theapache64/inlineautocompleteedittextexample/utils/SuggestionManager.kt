@@ -35,7 +35,7 @@ class SuggestionManager(private val dictionary: Array<String>) {
         val words = text.split(" ").filter { it.isNotBlank() }
 
         // Getting last word
-        val lastWord = words.last()
+        val lastWord = if (text.endsWith(" ")) "${words.last()} " else words.last()
 
         // Matching if last word exist in any dictionary
         val suggestions = mutableSetOf<String>()
