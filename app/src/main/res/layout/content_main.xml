@@ -11,11 +11,15 @@
     <com.theapache64.inlineautocompleteedittextexample.InLineAutoCompleteEditText
         android:id="@+id/et_message"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_margin="18dp"
         android:gravity="start"
         android:hint="@string/hint_enter_message"
-        android:inputType="textNoSuggestions"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:maxLines="4"
+        android:minLines="4"
+        android:singleLine="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

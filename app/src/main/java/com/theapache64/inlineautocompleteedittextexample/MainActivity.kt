@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
             "It's been a pleasure working with you",
             "Please help me!!"
         )
-
-
     }
 
 }

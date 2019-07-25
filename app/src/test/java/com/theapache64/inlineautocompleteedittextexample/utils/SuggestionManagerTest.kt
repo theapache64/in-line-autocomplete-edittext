@@ -30,6 +30,7 @@ class SuggestionManagerTest {
 
     @Test
     fun getSuggestionFor() {
+
         assertNull(suggestionManager.getSuggestionFor(""))
 
         assertEquals(
@@ -69,15 +70,13 @@ class SuggestionManagerTest {
 
         assertNull(suggestionManager.getSuggestionFor("Hey mannn gith "))
         assertEquals("ub is amazing", suggestionManager.getSuggestionFor("Hey mannn gith"))
+
+        assertEquals(null, suggestionManager.getSuggestionFor("olakka"))
     }
 
     @Test
     fun specialTest() {
-        val text = "This is some text.It's been a pleasure, working with you"
-
-        // Splitting words by space
-        val words = text.split(Regex("[^A-Za-z'-]")).filter { it.isNotBlank() }
-        println(words)
+        assertEquals("me!!", suggestionManager.getSuggestionFor("Please help "))
 
     }
 }
