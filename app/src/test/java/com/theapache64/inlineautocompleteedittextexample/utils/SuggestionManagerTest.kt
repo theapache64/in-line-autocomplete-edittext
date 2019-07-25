@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import java.util.regex.Pattern
 
 class SuggestionManagerTest {
 
@@ -76,7 +77,12 @@ class SuggestionManagerTest {
 
     @Test
     fun specialTest() {
-        assertEquals("me!!", suggestionManager.getSuggestionFor("Please help "))
-
+        val data = "Order No 656468WHITE"
+        val regex = "Order No (?<orderNum>\\d+)"
+        val pattern = Pattern.compile(regex)
+        val matcher = pattern.matcher(data)
+        if (matcher.find()) {
+            print("Order num is ${matcher.group("orderNum")}")
+        }
     }
 }

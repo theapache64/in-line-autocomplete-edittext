@@ -82,12 +82,10 @@ class SuggestionManager(private val dictionary: Array<String>) {
                 val selPwLength = selPw.length
 
                 // Checking if typed word length is more than 25% of the suggestion
-                if (selPwLength < selSugQuarter) {
-                    return null
-                }
-
-                if (text.endsWith(" ")) {
-                    selSug = selSug.trim()
+                if (selPwLength > selSugQuarter) {
+                    if (text.endsWith(" ")) {
+                        selSug = selSug.trim()
+                    }
                 }
 
                 return selSug
