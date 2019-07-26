@@ -19,7 +19,6 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     private var prevText: String? = null
     private var before: Int = 0
     private var count: Int = 0
-    private var prevTextWithOutSug: String? = null
     lateinit var dictionary: Array<String>
     private val suggestionMan by lazy {
         SuggestionManager(dictionary)
@@ -89,9 +88,8 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
             "<font color=$TEXT_COLOR>$currentText</font>"
         }.replace("\n", "<br/>")
 
-
         setText(HtmlCompat.fromHtml(fullText))
-        setSelection(currentText.length)
+        setSelection(HtmlCompat.fromHtml(currentText.toString()).length)
 
         addTextChangedListener(textWatcher)
     }

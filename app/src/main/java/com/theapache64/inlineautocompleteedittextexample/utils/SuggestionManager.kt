@@ -86,9 +86,9 @@ class SuggestionManager(private val dictionary: Array<String>) {
                     if (text.endsWith(" ")) {
                         selSug = selSug.trim()
                     }
-                }
 
-                return selSug
+                    return selSug
+                }
             }
         }
 
