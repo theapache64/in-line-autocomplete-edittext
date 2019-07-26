@@ -17,8 +17,6 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
     private var hasActiveSuggestion: Boolean = false
     private var prevText: String? = null
-    private var before: Int = 0
-    private var count: Int = 0
     lateinit var dictionary: Array<String>
     private val suggestionMan by lazy {
         SuggestionManager(dictionary)
@@ -32,9 +30,18 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     private val textWatcher = object : TextWatcher {
 
         override fun afterTextChanged(_newText: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(_newText: CharSequence?, start: Int, before: Int, count: Int) {
+
             var newText = _newText.toString()
 
             mistake("afterTextChanged invoked with $newText")
+            info("and prev text is: $prevText")
             if (hasActiveSuggestion) {
                 val isBackSpace = count < before
                 newText = if (isBackSpace) {
@@ -49,16 +56,9 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
             suggestionMan.getSuggestionFor(newText).let { remSug ->
                 info("Suggestion :$remSug")
                 prevText = newText
+                info("new prev text is: $prevText")
                 setTextSilently(newText, remSug)
             }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(_newText: CharSequence?, start: Int, before: Int, count: Int) {
-            this@InLineAutoCompleteEditText.before = before
-            this@InLineAutoCompleteEditText.count = count
         }
 
     }
