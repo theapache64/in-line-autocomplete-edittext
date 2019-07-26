@@ -25,6 +25,10 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     companion object {
         private const val TEXT_COLOR = "#000000"
         private const val HINT_COLOR = "#c2c2c2"
+
+        private fun nbpize(string: String): String {
+            return string.replace(" ", "&nbsp;")
+        }
     }
 
     private val textWatcher = object : TextWatcher {
@@ -68,7 +72,7 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
         setOnClickListener {
             // Setting full text - suggestion accepted
-            prevText = text.toString()
+            //prevText = text.toString()
             setTextSilently(text, null)
         }
     }
@@ -82,12 +86,15 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
 
         val fullText = if (suggestion != null) {
             hasActiveSuggestion = true
-            "<font color=$TEXT_COLOR>$currentText</font><font color=$HINT_COLOR>$suggestion</font>"
+            "<font color=$TEXT_COLOR>${nbpize(currentText.toString())}</font><font color=$HINT_COLOR>${nbpize(
+                suggestion
+            )}</font>"
         } else {
             hasActiveSuggestion = false
-            "<font color=$TEXT_COLOR>$currentText</font>"
+            "<font color=$TEXT_COLOR>${nbpize(currentText.toString())}</font>"
         }.replace("\n", "<br/>")
 
+        info("Setting text to:$fullText")
         setText(HtmlCompat.fromHtml(fullText))
         setSelection(HtmlCompat.fromHtml(currentText.toString()).length)
 
@@ -95,3 +102,4 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     }
 
 }
+
