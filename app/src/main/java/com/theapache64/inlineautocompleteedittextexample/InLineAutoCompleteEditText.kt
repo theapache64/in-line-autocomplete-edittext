@@ -25,10 +25,10 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         private const val HINT_COLOR = "#c2c2c2"
 
         fun nbpize(string: String): String {
-            info("Before : $string")
+            /*info("Before : $string")
             val replace = string.replace(Regex("\\s"), "&nbsp;")
-            info("After : $replace")
-            return replace
+            info("After : $replace")*/
+            return string
         }
     }
 
@@ -39,13 +39,18 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
             info("afterTextChanged: Current text is $text")
             info("afterTextChanged: New text is $_newText")
 
-            mistake("Suggestion is:${suggestionMan.getSuggestionFor(_newText.toString())}")
+            val suggestion = suggestionMan.getSuggestionFor(_newText.toString())
+            mistake("Suggestion is:$suggestion")
+
+            setTextSilently(_newText.toString(), suggestion)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             info("-----------------------------------")
             info("beforeTextChanged: Current text is $text")
             info("beforeTextChanged: New text is $s")
+
+
         }
 
         override fun onTextChanged(_newText: CharSequence?, start: Int, before: Int, count: Int) {
@@ -81,7 +86,7 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         } else {
             hasActiveSuggestion = false
             "<font color=$TEXT_COLOR>${nbpize(currentText.toString())}</font>"
-        }.replace("\n", "<br/>")
+        }/*.replace("\n", "<br/>")*/
 
         info("Setting text to:$fullText")
         val prevPos = selectionEnd

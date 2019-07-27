@@ -36,6 +36,7 @@ class SuggestionManager(private val dictionary: Array<String>) {
 
         // Getting last line only
         if (text.contains("\n")) {
+
             text = text.split("\n").last()
 
             if (text.trim().isEmpty()) {
