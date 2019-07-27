@@ -9,7 +9,6 @@ import com.theapache64.inlineautocompleteedittextexample.utils.HtmlCompat
 import com.theapache64.inlineautocompleteedittextexample.utils.SuggestionManager
 import com.theapache64.twinkill.logger.info
 import com.theapache64.twinkill.logger.mistake
-import com.theapache64.twinkill.logger.warning
 
 
 class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
@@ -36,33 +35,23 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     private val textWatcher = object : TextWatcher {
 
         override fun afterTextChanged(_newText: Editable?) {
+            info("-----------------------------------")
+            info("afterTextChanged: Current text is $text")
+            info("afterTextChanged: New text is $_newText")
 
+            mistake("Suggestion is:${suggestionMan.getSuggestionFor(_newText.toString())}")
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            info("-----------------------------------")
+            info("beforeTextChanged: Current text is $text")
+            info("beforeTextChanged: New text is $s")
         }
 
         override fun onTextChanged(_newText: CharSequence?, start: Int, before: Int, count: Int) {
-
-            var newText = _newText.toString()
-
-            mistake("afterTextChanged invoked with $newText")
-            info("and prev text is: $text")
-            if (hasActiveSuggestion) {
-                val isBackSpace = count < before
-                newText = if (isBackSpace) {
-                    warning("Backspace detected on suggestion")
-                    newText.substring(0, text!!.length - 1)
-                } else {
-                    newText.substring(0, text!!.length + 1)
-                }
-
-            }
-
-            suggestionMan.getSuggestionFor(newText).let { remSug ->
-                info("Suggestion :$remSug")
-                setTextSilently(newText, remSug)
-            }
+            info("-----------------------------------")
+            info("onTextChanged: Current text is $text")
+            info("onTextChanged: New text is $_newText")
         }
 
     }

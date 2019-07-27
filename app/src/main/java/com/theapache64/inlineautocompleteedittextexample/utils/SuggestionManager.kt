@@ -88,7 +88,7 @@ class SuggestionManager(private val dictionary: Array<String>) {
                 // trimming to
                 selSug = selSug.replace(selPw, "", true)
 
-                /*// Checking length
+                // Checking length
                 val selSugLength = selSug.length
                 val selSugQuarter = selSugLength * 0.25
                 val selPwLength = selPw.length
@@ -96,13 +96,15 @@ class SuggestionManager(private val dictionary: Array<String>) {
                 // Checking if typed word length is more than 25% of the suggestion
                 if (selPwLength > selSugQuarter) {
 
-                }*/
+                    if (text.endsWith(" ")) {
+                        selSug = selSug.trim()
+                    }
 
-                if (text.endsWith(" ")) {
-                    selSug = selSug.trim()
+                    return selSug
                 }
 
-                return selSug
+
+                return null
             }
         }
 
