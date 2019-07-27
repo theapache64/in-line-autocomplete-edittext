@@ -16,7 +16,6 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
     EditText(context, attrs) {
 
     private var hasActiveSuggestion: Boolean = false
-    private var prevText: String? = null
     lateinit var dictionary: Array<String>
     private val suggestionMan by lazy {
         SuggestionManager(dictionary)
@@ -26,8 +25,11 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         private const val TEXT_COLOR = "#000000"
         private const val HINT_COLOR = "#c2c2c2"
 
-        private fun nbpize(string: String): String {
-            return string.replace(" ", "&nbsp;")
+        fun nbpize(string: String): String {
+            info("Before : $string")
+            val replace = string.replace(Regex("\\s"), "&nbsp;")
+            info("After : $replace")
+            return replace
         }
     }
 
@@ -45,22 +47,20 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
             var newText = _newText.toString()
 
             mistake("afterTextChanged invoked with $newText")
-            info("and prev text is: $prevText")
+            info("and prev text is: $text")
             if (hasActiveSuggestion) {
                 val isBackSpace = count < before
                 newText = if (isBackSpace) {
                     warning("Backspace detected on suggestion")
-                    newText.substring(0, prevText!!.length - 1)
+                    newText.substring(0, text!!.length - 1)
                 } else {
-                    newText.substring(0, prevText!!.length + 1)
+                    newText.substring(0, text!!.length + 1)
                 }
 
             }
 
             suggestionMan.getSuggestionFor(newText).let { remSug ->
                 info("Suggestion :$remSug")
-                prevText = newText
-                info("new prev text is: $prevText")
                 setTextSilently(newText, remSug)
             }
         }
@@ -95,8 +95,9 @@ class InLineAutoCompleteEditText(context: Context?, attrs: AttributeSet?) :
         }.replace("\n", "<br/>")
 
         info("Setting text to:$fullText")
+        val prevPos = selectionEnd
         setText(HtmlCompat.fromHtml(fullText))
-        setSelection(HtmlCompat.fromHtml(currentText.toString()).length)
+        setSelection(prevPos)
 
         addTextChangedListener(textWatcher)
     }

@@ -1,10 +1,10 @@
 package com.theapache64.inlineautocompleteedittextexample.utils
 
+import com.theapache64.inlineautocompleteedittextexample.InLineAutoCompleteEditText
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import java.util.regex.Pattern
 
 class SuggestionManagerTest {
 
@@ -74,17 +74,17 @@ class SuggestionManagerTest {
 
         assertEquals(null, suggestionManager.getSuggestionFor("olakka"))
 
-        assertEquals(null, suggestionManager.getSuggestionFor("   "))
+        assertEquals(
+            null,
+            suggestionManager.getSuggestionFor("This is some example and GitHub is \n\n")
+        )
     }
 
     @Test
     fun specialTest() {
-        val data = "Order No 656468WHITE"
-        val regex = "Order No (?<orderNum>\\d+)"
-        val pattern = Pattern.compile(regex)
-        val matcher = pattern.matcher(data)
-        if (matcher.find()) {
-            print("Order num is ${matcher.group("orderNum")}")
-        }
+        assertEquals("hello&nbsp;hello", InLineAutoCompleteEditText.nbpize("hello hello"))
+        assertEquals("&nbsp;", InLineAutoCompleteEditText.nbpize(" "))
+        assertEquals("&nbsp;&nbsp;", InLineAutoCompleteEditText.nbpize("  "))
+        assertEquals("&nbsp;&nbsp;b&nbsp;", InLineAutoCompleteEditText.nbpize("  b "))
     }
 }

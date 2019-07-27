@@ -4,7 +4,7 @@ package com.theapache64.inlineautocompleteedittextexample.utils
 class SuggestionManager(private val dictionary: Array<String>) {
 
     companion object {
-        private val WORD_SPLIT_REGEX = Regex("[^A-Za-z'-]")
+        private val WORD_SPLIT_REGEX = Regex("[^A-Za-z0-9'\\-]")
         /**
          * To get reversed list
          */
@@ -25,12 +25,24 @@ class SuggestionManager(private val dictionary: Array<String>) {
         }
     }
 
-    fun getSuggestionFor(text: String?): String? {
+    fun getSuggestionFor(_text: String?): String? {
+
+        var text = _text
 
         // empty text
         if (text.isNullOrBlank()) {
             return null
         }
+
+        // Getting last line only
+        if (text.contains("\n")) {
+            text = text.split("\n").last()
+
+            if (text.trim().isEmpty()) {
+                return null
+            }
+        }
+
 
         // Splitting words by space
         val words = text.split(WORD_SPLIT_REGEX).filter { it.isNotBlank() }
@@ -76,26 +88,25 @@ class SuggestionManager(private val dictionary: Array<String>) {
                 // trimming to
                 selSug = selSug.replace(selPw, "", true)
 
-                // Checking length
+                /*// Checking length
                 val selSugLength = selSug.length
                 val selSugQuarter = selSugLength * 0.25
                 val selPwLength = selPw.length
 
                 // Checking if typed word length is more than 25% of the suggestion
                 if (selPwLength > selSugQuarter) {
-                    if (text.endsWith(" ")) {
-                        selSug = selSug.trim()
-                    }
 
-                    return selSug
+                }*/
+
+                if (text.endsWith(" ")) {
+                    selSug = selSug.trim()
                 }
+
+                return selSug
             }
         }
 
-
-
         return null
     }
-
 
 }
