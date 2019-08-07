@@ -25,8 +25,8 @@ class SuggestionManagerUrlTest {
         assertNull(suggestionManager.getSuggestionFor(""))
 
         // matching
-        assertEquals("ogle.com", suggestionManager.getSuggestionFor("go"))
-        assertEquals("book.com", suggestionManager.getSuggestionFor("face"))
+        assertEquals("le.com", suggestionManager.getSuggestionFor("goog"))
+        assertEquals("ook.com", suggestionManager.getSuggestionFor("faceb"))
         assertEquals(".168.354.45", suggestionManager.getSuggestionFor("192"))
 
         // no match
